@@ -1,0 +1,29 @@
+ ########
+ I = imread('mickey.jpg');
+imshow(I)
+xform = [ 1 0 0 
+          0 1 0 
+          40 40 1 ];
+tform_translate = affine2d(xform)
+
+#########
+Rout = imref2d(size(I)); 
+Rout.XWorldLimits(2) = Rout.XWorldLimits(2)+40; 
+Rout.YWorldLimits(2) = Rout.YWorldLimits(2)+40; 
+Rout.ImageSize = Rout.ImageSize+[40 40];
+cb_I = imwarp(I,tform_translate,'OutputView',Rout);
+figure, imshow(cb_I)
+
+#########
+theta = 30;
+tform1 = affine2d([ ...
+    cosd(theta) sind(theta) 0;...
+    -sind(theta) cosd(theta) 0; ...
+    0 0 1])
+J = imwarp(I,tform1);
+imshow(J)
+
+#########
+tform2 = affine2d([1 0.2 0; .5 1 0; 0 0 1])
+ J = imwarp(I,tform2);
+imshow(J)
